@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import { PiSparkleFill } from "react-icons/pi";
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const updateCharCount = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCount(e.target.value.length);
+  }
 
   return (
     <>
@@ -28,13 +32,16 @@ function App() {
           <p>
             Paste emails, call notes, texts, or any unstructured legal communication. Our AI will extract actionable tasks and route them to specialized assistants.
           </p>
-          <input className='input-text-box'>
+          <textarea className='input-text-box' id='promptInput' onChange={updateCharCount}></textarea>
+          <div className='input-footer'>
+            <p><span>{count}</span> CHARACTERS</p>
+            <button className='processAI'><PiSparkleFill size={20}></PiSparkleFill>  PROCESS WITH AI</button>
+          </div>
+          <div className='example-box'>
 
-        </input>
+          </div>
         </div>
-        
       </div>
-      
     </>
   )
 }
