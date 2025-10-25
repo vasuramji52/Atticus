@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { PiSparkleFill } from "react-icons/pi";
 import { useAuth } from "react-oidc-context"; 
+import logo from './assets/logo.svg'
 import './App.css'
 
 function App() {
@@ -30,7 +31,9 @@ function App() {
     <>
       <div className='horizontal-bar'>
           <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&display=swap" rel="stylesheet"></link>
-          <h1>Atticus</h1>
+          <h1 className='atticus-title'>Atticus
+                <img src={logo} className='logo'></img>
+            </h1>
           <h2>Your personalized legal assistant</h2>
           <h3>Est. 2025</h3>
       </div>

@@ -116,8 +116,41 @@ body {
   }
   .example-box{
     background-color:#faf6ed;
-    border: 1px solid #9b8f82;
+    border: 2px solid #dcd3c1;
     padding: 1rem 2rem;
+    margin: 2rem;
+    border-radius: 6px;
+    h2 {
+      
+      font-size: large;
+      text-align: left;
+      font-weight: normal
+    }
+    .button-group {
+      display: flex;
+      background: #f5f0e7;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px 15px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .tab:hover {
+      background: #e8e0d0;
+    }
+
+    .tab.active {
+      border-radius: 4px;
+      background: #d7cbb8; /* highlighted color */
+    }
   }
 }
 

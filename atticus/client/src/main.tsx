@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { AuthProvider } from "react-oidc-context";
 import './index.css'
 import Prompt from './pages/Prompt.tsx'
+import Dashboard from './pages/Dashboard.tsx'
 import App from './App.tsx'
 
 const cognitoAuthConfig = {
@@ -17,7 +18,7 @@ const cognitoAuthConfig = {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider {...cognitoAuthConfig}>
-      <App />
+      <Dashboard />
     </AuthProvider>
   </StrictMode>,
 )

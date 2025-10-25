@@ -1,0 +1,246 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+.horizontal-bar {
+  background-color: #3d3225; 
+  height: flex;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
+}
+
+.atticus-title {
+  font-size: 6.0rem;
+  font-family: "Corinthia", cursive;
+  font-weight: 800;
+  color: white;
+  padding: 0;
+  margin: 0;
+  /* margin-block-start: 0;
+  margin-block-end: 0; */
+  display:flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0.4, 0.4));
+}
+.logo {
+    width: 80px;
+    height: 90px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.horizontal-bar h2 {
+  font-family: 'Courier New', monospace;
+  font-size: 1.2em;
+  color: #ebe0d6;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.horizontal-bar h3 {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  color: #ebe0d6;
+  margin-top: 1rem;
+  padding: 0rem;
+  letter-spacing: 1px;
+}
+.main-body{
+  background-color: #f4ead5;
+  padding: 2rem 0rem;
+  min-height:max-content;
+
+}
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;       
+  gap: 20px;              
+  padding: 0 2rem;
+  justify-content: flex-start;
+  align-items: flex-start; 
+}
+
+.grid-item {
+  flex: 1 1 300px;        
+  min-width: 100px;
+  max-width: 500px;
+  padding: 20px;
+  border: 2.2px solid #dcd3c1;
+  background-color: #faf6ed;
+  border-radius: 6px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* translucent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  z-index: 1000; /* makes sure it's above dashboard */
+}
+
+@keyframes modal-pop-in {
+  0% {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05) translateY(-5px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes modal-pop-out {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from { background-color: rgba(0, 0, 0, 0); }
+  to { background-color: rgba(0, 0, 0, 0.5); }
+}
+
+@keyframes fade-out {
+  from { background-color: rgba(0, 0, 0, 0.5); }
+  to { background-color: rgba(0, 0, 0, 0); }
+}
+
+.modal-content {
+  background-color: #faf6ed;
+  border: 2px solid #dcd3c1;
+  border-radius: 8px;
+  width: 600px;
+  max-width: 90%;
+  padding: 1.5rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  font-family: 'Courier New', Courier, monospace;
+  color: #3d3225;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.modal-content--after-open {
+  animation: modal-pop-in 0.3s ease forwards;
+}
+
+.modal-content--before-close {
+  animation: modal-pop-out 0.3s ease forwards;
+}
+
+.modal-overlay--after-open {
+  animation: fade-in 0.3s ease forwards;
+}
+
+.modal-overlay--before-close {
+  animation: fade-out 0.3s ease forwards;
+}
+
+/* === Modal Header === */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #3d3225;
+}
+
+.close-btn:hover {
+  color: #7c6b52;
+}
+
+/* === Notepad Table === */
+.notepad-table {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px dashed #d0c4b1;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.notepad-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  padding: 0.7rem 0;
+  border-bottom: 1px dashed #d0c4b1;
+  display: flex;
+}
+
+.notepad-row.header {
+  font-weight: bold;
+  background-color: #f4ead5;
+}
+
+.notepad-row div {
+  padding: 0 0.5rem;
+}
+
+.schedule-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.schedule-button h3 {
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 1.1rem;
+  color: #3d3225;
+}
+
+.preview-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.preview-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  font-size: 0.8rem;
+  color: #614a2f;
+}
+
+.preview-more {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #7a6a54;
+}
+
+.scrollable {
+  max-height: 60vh;
+  overflow-y: auto;
+}
