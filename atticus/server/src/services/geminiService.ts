@@ -1,42 +1,63 @@
-// server/src/services/geminiService.ts
-interface GeminiClassification {
-  task_type: string;
-  specialist_assigned: string;
-  summary: string;
-  confidence: number;
+import { GoogleGenAI } from "@google/genai";
+import * as dotenv from "dotenv";
+dotenv.config();
+
+const apiKey = process.env.GEMINI_API_KEY!;
+
+export async function classifyText(input: string) {
+  try {
+    // 1️⃣ Initialize the new-style client
+    const genAI = new GoogleGenAI({ apiKey, apiVersion: "v1" });
+
+    // 2️⃣ Call generateContent via models API
+    const result = await genAI.models.generateContent({
+      model: "gemini-2.0-flash", // or "gemini-2.0-pro" if you want higher reasoning
+      contents: [
+        {
+          role: "user",
+          parts: [
+            {
+              text: `
+You are an AI assistant helping a law firm classify messages.
+
+Input text:
+"""${input}"""
+
+Output JSON fields:
+{
+  "task_type": "REQUEST_RECORDS",
+  "specialist_assigned": "records_wrangler",
+  "summary": "Client requests MRI results from Dr. Lee.",
+  "confidence": 0.95
 }
+`
+            }
+          ]
+        }
+      ]
+    });
 
-export async function classifyText(input: string): Promise<GeminiClassification> {
-  // For now: use simple keyword-based mock
-  const lower = input.toLowerCase();
+    // 3️⃣ Extract model text output
+    const text = result.text ?? "";
+    console.log("💬 Raw Gemini output:", text);
 
-  if (lower.includes("mri") || lower.includes("records")) {
+    // 4️⃣ Parse JSON safely
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    const parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : {};
+
     return {
-      task_type: "REQUEST_RECORDS",
-      specialist_assigned: "records_wrangler",
-      summary: "Client missing medical record or MRI from provider.",
-      confidence: 0.9,
+      task_type: parsed.task_type || "UNCATEGORIZED",
+      specialist_assigned: parsed.specialist_assigned || "general_specialist",
+      summary: parsed.summary || "Could not classify message.",
+      confidence: parsed.confidence || 0.5,
     };
-  } else if (lower.includes("call") || lower.includes("schedule")) {
+  } catch (error: any) {
+    console.error("❌ Gemini classification failed:", error.message || error);
     return {
-      task_type: "SCHEDULE_APPOINTMENT",
-      specialist_assigned: "voice_bot_scheduler",
-      summary: "Scheduling or follow-up needed.",
-      confidence: 0.85,
-    };
-  } else if (lower.includes("email") || lower.includes("message")) {
-    return {
-      task_type: "EMAIL_DRAFTER",
-      specialist_assigned: "client_comm_guru",
-      summary: "Drafting a client message or email response.",
-      confidence: 0.8,
-    };
-  } else {
-    return {
-      task_type: "LEGAL_RESEARCH",
-      specialist_assigned: "legal_researcher",
-      summary: "Legal research or analysis required.",
-      confidence: 0.75,
+      task_type: "UNCATEGORIZED",
+      specialist_assigned: "general_specialist",
+      summary: "Gemini call failed.",
+      confidence: 0.5,
     };
   }
 }

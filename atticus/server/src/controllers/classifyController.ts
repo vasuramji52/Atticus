@@ -10,10 +10,8 @@ export async function classifyInput(req: Request, res: Response) {
       return res.status(400).json({ error: "Missing raw_input or created_by" });
     }
 
-    // Step 1: Ask Gemini (mocked for now)
     const result = await classifyText(raw_input);
 
-    // Step 2: Create new Task
     const newTask = {
       created_by,
       task_type: result.task_type,
@@ -27,12 +25,9 @@ export async function classifyInput(req: Request, res: Response) {
     };
 
     const savedTask = await createTask(newTask);
-
-    // Step 3: Return task to frontend
     res.status(201).json(savedTask);
-
   } catch (error) {
-    console.error("❌ Error in classifyInput:", error);
+    console.error("❌ classifyInput error:", error);
     res.status(500).json({ error: "Failed to classify input" });
   }
 }
