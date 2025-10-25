@@ -37,9 +37,6 @@ function App() {
             <p><span>{count}</span> CHARACTERS</p>
             <button className='processAI'><PiSparkleFill size={20}></PiSparkleFill>  PROCESS WITH AI</button>
           </div>
-          <div className='example-box'>
-
-          </div>
         </div>
       </div>
     </>
