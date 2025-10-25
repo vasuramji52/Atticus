@@ -1,1 +1,1 @@
-# JudgeJudAI
+# Atticus
