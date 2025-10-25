@@ -20,7 +20,7 @@ function App() {
       window.location.href =
         "https://us-east-296wclzcby.auth.us-east-2.amazoncognito.com/logout" +
         "?client_id=7ikmvo0k2glff8dkqn8chgg3mg" +
-        "&logout_uri=http://localhost:5174";
+        "&logout_uri=http://localhost:5174/";
     });
   } else {
     auth.signinRedirect();
