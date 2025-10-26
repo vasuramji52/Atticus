@@ -64,6 +64,11 @@ export async function updateApprovalStatus(id: string, status: string) {
         await db.collection("proposals").doc(proposalId).delete();
         console.log(`🗑️ Proposal ${proposalId} deleted after rejection`);
       }
+
+      if (taskId) {
+        await db.collection("tasks").doc(taskId).update({ status: "REVIEWED" });
+        console.log(`✅ Task ${taskId} marked as REVIEWED`);
+      } 
     } 
 
     else if (status === "APPROVED") {
