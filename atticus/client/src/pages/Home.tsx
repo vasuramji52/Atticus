@@ -69,15 +69,7 @@ export default function Home() {
         <h1 className="hero-title">For The People, but organized.</h1>
 
         <p className="hero-sub">
-          Atticus helps plaintiff teams turn chaos into clarity. We take raw
-          inputs like texts, voicemails, scanned PDFs, and email threads and
-          automatically indentify key legal elements such as incident dates,
-          parties, insurance providers, and injuries. Instead of manually typing
-          summaries or copying details into spreadsheets, your team can drag and
-          drop or paste any content — and Atticus instantly structures it into a
-          clean, searchable case record. It filters out filler language, detects
-          duplicates, and links the message to the correct client or matter
-          number.
+          Atticus helps you transform chaos into clarity. All it takes is a click of a button to harness the processing power of a legally-informed, dynamic AI model at your fingertips.
         </p>
 
         <button className="cta-button" onClick={handleGetStarted}>
@@ -95,39 +87,23 @@ export default function Home() {
 
         <div className="how-grid">
           <div className="how-card">
-            <h3 className="how-title">Intake without friction</h3>
+            <h3 className="how-title">Structured next steps</h3>
             <p className="how-text">
-              No portals. No forms. Instead of manually typing summaries or
-              copying details into spreadsheets, your team can drag and drop or
-              paste any content — and Atticus instantly structures it into a
-              clean, searchable case record. It filters out filler language,
-              detects duplicates, and links the message to the correct client or
-              matter number.
+               Atticus doesn’t just organize your information; it understands it, so you can move from reaction to resolution faster than ever.
             </p>
           </div>
 
           <div className="how-card">
-            <h3 className="how-title">Structured next steps</h3>
+            <h3 className="how-title">Intake without friction</h3>
             <p className="how-text">
-              Atticus doesn’t just summarize; it plans the follow-through. Using
-              legal language understanding, it detects deadlines, missing
-              discovery items, offer adjustments, and follow-up tasks. It
-              classifies each finding as time-sensitive, pending documentation,
-              or awaiting client response, and assigns it to the right internal
-              role.
+              We take raw inputs — messy emails, call notes, texts, or scattered client updates — and turn them into structured case intelligence. Atticus identifies deadlines, missing records, and next steps, linking every detail to the right matter or specialist automatically.
             </p>
           </div>
 
           <div className="how-card">
             <h3 className="how-title">Team handoff ready</h3>
             <p className="how-text">
-              Atticus translates messy updates into role-specific summaries so
-              every team member receives only what they need. Schedulers
-              automatically see hearing dates, medical appointments, and
-              deposition slots in calendar-ready format. Demand writers get
-              concise summaries of treatments, damages, and policy limits ready
-              for demand package drafting. Case managers view document requests,
-              client messages, and outstanding follow-ups in checklist form.
+               Instead of digging through threads or spreadsheets, your team gets instant, actionable summaries — ready for scheduling, drafting, or follow-up. 
             </p>
           </div>
         </div>
