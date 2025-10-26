@@ -2,7 +2,8 @@ import * as express from "express";
 import * as cors from "cors";
 import classifyRoute from "./routes/classify";
 import proposals from "./routes/process";
-
+import approvalRoute from "./routes/approve";
+import taskRoute from "./routes/tasks";
 
 const app = express();
 
@@ -13,5 +14,7 @@ app.use(express.json());
 // register your route
 app.use("/api/classify", classifyRoute);
 app.use("/api/proposals", proposals);
+app.use("/api/approve", approvalRoute);
+app.use("/api/tasks", taskRoute);
 
 export default app; // 👈 this is how index.ts can import it
