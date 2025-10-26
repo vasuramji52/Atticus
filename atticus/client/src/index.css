@@ -64,7 +64,7 @@ body {
 
   .input-box {
     color: #3e3729;
-   
+    border: 2.2px solid #dcd3c1;
     margin: 2rem;
     padding: 1rem 2rem;
     background-color:#faf6ed;
@@ -83,8 +83,36 @@ body {
 
     .input-text-box{
       width: 100%;
-      border: 1px solid #dcd3c1;
+      border: 2px solid #dcd3c1;
       height: 400px;
+      background-color: transparent;
+      vertical-align: top;
+      resize: none;
+      box-sizing: border-box;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .input-footer{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .processAI {
+        padding: 0.4rem 1.4rem;
+        align-items: center;
+        justify-content: center;
+        background-color: #9b8f82;
+        border: none;
+        font-family:'Courier New', Courier, monospace;
+        color: #faf6ed;
+        height: 50px;
+        font-weight: bold;
+        font-size: medium;
+      }
+      .processAI:hover{
+        background-color:#3d3225;
+      }
     }
   }
 }
+

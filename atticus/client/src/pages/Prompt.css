@@ -1,0 +1,217 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.horizontal-bar {
+  background-color: #3d3225; /* or #242424 */
+  height: flex;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertically centers text */
+  align-items: center;     /* horizontally centers text */
+}
+
+.left-header {
+  justify-content: center;
+  justify-items: center;
+  flex-direction: column;
+}
+
+.right-header {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-btn {
+  background-color: #9b8f82;
+  border: 2px solid #333;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.nav-btn:hover {
+  background-color: #614a2f;
+  color: white;
+}
+
+.horizontal-bar h1 {
+  font-size: 6.0rem;
+  font-family: "Corinthia", cursive;
+  font-weight: 800;
+  color: white;
+  padding: 0;
+  margin: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.horizontal-bar h2 {
+  font-family: 'Courier New', monospace;
+  font-size: 1.2em;
+  color: #ebe0d6;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.horizontal-bar h3 {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  color: #ebe0d6;
+  margin-top: 1rem;
+  padding: 0rem;
+  letter-spacing: 1px;
+  justify-content: center;
+}
+
+.main-body{
+  background-color: #f4ead5;
+  padding: 2rem 0rem;
+
+  .grid-container {
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px;
+    padding: 0rem 2rem;
+  }
+
+  .grid-item {
+    padding: 20px;
+    border: 2.2px solid #dcd3c1;
+    text-align:left;
+    background-color: #faf6ed;
+    color: #614a2f;
+    font-weight: bold;
+    font-size: smaller;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  .input-box {
+    color: #3e3729;
+    border: 2.2px solid #dcd3c1;
+    margin: 2rem;
+    padding: 1rem 2rem;
+    background-color:#faf6ed;
+    border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
+
+    h2 {
+      
+      font-size: large;
+      text-align: left;
+    }
+
+    p{
+      text-align: left;
+      font-size: small;
+    }
+
+    .input-text-box{
+      width: 100%;
+      border: 2px solid #dcd3c1;
+      height: 400px;
+      background-color: transparent;
+      vertical-align: top;
+      resize: none;
+      box-sizing: border-box;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .input-footer{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .processAI {
+        padding: 0.4rem 1.4rem;
+        align-items: center;
+        justify-content: center;
+        background-color: #9b8f82;
+        border: none;
+        font-family:'Courier New', Courier, monospace;
+        color: #faf6ed;
+        height: 50px;
+        font-weight: bold;
+        font-size: medium;
+      }
+      .processAI:hover{
+        background-color:#3d3225;
+      }
+    }
+  }
+  .example-box{
+    background-color:#faf6ed;
+    border: 2px solid #dcd3c1;
+    padding: 1rem 2rem;
+    margin: 2rem;
+    border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
+    .example-text {
+      margin-top:1rem;
+      border: 2px solid #d9ccb4;
+      padding:1rem;
+      margin-bottom:1rem;
+      background-color:#e8dcc4;
+    }
+    h2 {
+      
+      font-size: large;
+      text-align: left;
+      font-weight: normal
+    }
+    .button-group {
+      display: flex;
+      background: #e8dcc4;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px 15px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .tab:hover {
+      background: #e8e0d0;
+    }
+
+    .tab.active {
+      border-radius: 4px;
+      background: #d7cbb8; /* highlighted color */
+    }
+    pre {
+        white-space: pre-wrap;      /* ✅ wraps long lines but keeps line breaks */
+        word-wrap: break-word;      /* ✅ allows breaking long words if needed */
+        overflow-wrap: break-word;  /* ✅ modern alternative for word-wrap */
+        font-size: large;
+        flex-direction: row;
+    }
+    .load-example {
+        padding: 0.4rem 1.4rem;
+        align-items: center;
+        justify-content: center;
+        background-color: #9b8f82;
+        border: none;
+        font-family:'Courier New', Courier, monospace;
+        color: #faf6ed;
+        height: 50px;
+        font-weight: bold;
+        font-size: medium;
+      }
+      .load-example:hover{
+        background-color:#3d3225;
+      }
+  }
+}
+
