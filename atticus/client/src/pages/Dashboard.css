@@ -12,6 +12,32 @@ body {
   align-items: center;     
 }
 
+.left-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.right-header {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-btn {
+  background-color: transparent;
+  border: 2px solid #333;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  background-color: #333;
+  color: white;
+}
+
 .atticus-title {
   font-size: 6.0rem;
   font-family: "Corinthia", cursive;
@@ -54,7 +80,7 @@ body {
 .main-body{
   background-color: #f4ead5;
   padding: 2rem 0rem;
-  min-height:max-content;
+  min-height: 100vh; 
 
 }
 .grid-container {
@@ -243,4 +269,14 @@ body {
 .scrollable {
   max-height: 60vh;
   overflow-y: auto;
+}
+.send-button {
+  border-radius: 4px;
+  background-color: #7a6a54;
+  font-family: 'Courier New', Courier, monospace;
+  padding:0.2rem;
+  font-size:large;
+  font-weight: bold;
+  color:#d0c4b1;
+  border: 1px solid #3d3225
 }

@@ -6,13 +6,13 @@ import Prompt from "./pages/Prompt";
 
 function App() {
   return (
-    <Router>
+
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/prompt" element={<Prompt />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
-    </Router>
+ 
   );
 }
 
