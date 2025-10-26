@@ -18,19 +18,54 @@ export async function classifyText(input: string) {
           parts: [
             {
               text: `
-You are an AI assistant helping a law firm classify messages.
+You are an AI assistant helping a law firm classify messy client messages 
+into structured tasks that can be routed to the correct specialist agent. 
+You must always respond ONLY with a valid JSON object matching the following schema:
 
-Input text:
+{
+  "task_type": string,               // e.g., "REQUEST_RECORDS", "EMAIL_DRAFTER", "LEGAL_RESEARCH", "SCHEDULE_APPOINTMENT"
+  "specialist_assigned": string,     // one of ["records_wrangler", "client_comm_guru", "legal_researcher", "voice_bot_scheduler"]
+  "summary": string,                 // a short (1–5 words) title capturing the core of the request without explicitly saying scheduling or without including the date (e.g., "consult session", "MRI records", "deposition")
+  "transcript": string,              // a full string transcription of what was inputed as a prompt
+  "confidence": number               // a number between 0 and 1 reflecting how confident you are in this classification
+}
+
+Available specialists and their example tasks:
+- records_wrangler:
+  • REQUEST_RECORDS → retrieving medical records or bills
+  • Example user messages:
+    - "Can you get me my MRI results from Dr. Lee?"
+    - "We need the hospital bills from the ER visit."
+
+- client_comm_guru:
+  • EMAIL_DRAFTER → drafting or replying to client messages
+  • Example user messages:
+    - "Can you write an email to the insurance adjuster?"
+    - "Send a follow-up email confirming the mediation date."
+
+- legal_researcher:
+  • LEGAL_RESEARCH → finding and summarizing verdicts, citations, legal facts
+  • Example user messages:
+    - "Can you find similar verdicts for rear-end collision cases?"
+    - "Research Florida case law for slip and fall liability."
+
+- voice_bot_scheduler:
+  • SCHEDULE_APPOINTMENT → coordinating depositions, mediations, or check-ins
+  • Example user messages:
+    - "I want to schedule a deposition next Friday at 10am."
+    - "Set up a client check-in for Tuesday at 2pm."
+
+Your task:
+Given the following message from the user:
+
 """${input}"""
 
-Output JSON fields:
-{
-  "task_type": "REQUEST_RECORDS",
-  "specialist_assigned": "records_wrangler",
-  "summary": "Client requests MRI results from Dr. Lee.",
-  "confidence": 0.95
-}
+Classify it into the correct task_type and specialist_assigned.
+If the input is unclear, pick "UNCATEGORIZED" for task_type and "general_specialist" for specialist_assigned.
+
+Return ONLY valid JSON in your reply.
 `
+
             }
           ]
         }
