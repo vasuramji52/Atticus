@@ -19,7 +19,7 @@ const cognitoAuthConfig = {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider {...cognitoAuthConfig}>
-       <Dashboard />
+       <Home />
     </AuthProvider>
   </StrictMode>,
 )

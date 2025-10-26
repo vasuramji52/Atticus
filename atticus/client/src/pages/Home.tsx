@@ -1,26 +1,36 @@
 import { useAuth } from "react-oidc-context";
+import { useEffect } from "react";
 import "./Home.css";
 import logo from "../assets/logo.svg"; // logo image (same one used in Dashboard)
 
 export default function Home() {
   const auth = useAuth();
 
+  useEffect(() => {
+    if (auth.isAuthenticated && auth.user?.access_token) {
+      const token = auth.user.access_token;
+      localStorage.setItem("accessToken", token);
+      console.log("auth.user.access_token:", token);
+
+      // ✅ auto fetch from backend here
+    }
+  }, [auth.isAuthenticated, auth.user]);
+
   const handleAuthClick = async () => {
-  if (auth.isAuthenticated) {
-    // 1. Clear local session so the UI immediately reflects "logged out"
-    await auth.removeUser();
+    if (auth.isAuthenticated) {
+      // 1. Clear local session so the UI immediately reflects "logged out"
+      await auth.removeUser();
 
-    // 2. Tell Cognito to clear its Hosted UI session cookie
-    window.location.href =
-      "https://us-east-296wclzcby.auth.us-east-2.amazoncognito.com/logout" +
-      "?client_id=7ikmvo0k2glff8dkqn8chgg3mg" +
-      "&logout_uri=http://localhost:5174/";
-  } else {
-    // Not logged in? Send them to sign in / sign up
-    auth.signinRedirect();
-  }
-};
-
+      // 2. Tell Cognito to clear its Hosted UI session cookie
+      window.location.href =
+        "https://us-east-296wclzcby.auth.us-east-2.amazoncognito.com/logout" +
+        "?client_id=7ikmvo0k2glff8dkqn8chgg3mg" +
+        "&logout_uri=http://localhost:5174/";
+    } else {
+      // Not logged in? Send them to sign in / sign up
+      auth.signinRedirect();
+    }
+  };
 
   // Main "Get Started" button logic
   const handleGetStarted = () => {
@@ -57,7 +67,15 @@ export default function Home() {
         <h1 className="hero-title">For The People, but organized.</h1>
 
         <p className="hero-sub">
-          Atticus helps plaintiff teams turn chaos into clarity. We take raw inputs like texts, voicemails, scanned PDFs, and email threads and automatically indentify key legal elements such as incident dates, parties, insurance providers, and injuries. Instead of manually typing summaries or copying details into spreadsheets, your team can drag and drop or paste any content — and Atticus instantly structures it into a clean, searchable case record. It filters out filler language, detects duplicates, and links the message to the correct client or matter number.
+          Atticus helps plaintiff teams turn chaos into clarity. We take raw
+          inputs like texts, voicemails, scanned PDFs, and email threads and
+          automatically indentify key legal elements such as incident dates,
+          parties, insurance providers, and injuries. Instead of manually typing
+          summaries or copying details into spreadsheets, your team can drag and
+          drop or paste any content — and Atticus instantly structures it into a
+          clean, searchable case record. It filters out filler language, detects
+          duplicates, and links the message to the correct client or matter
+          number.
         </p>
 
         <button className="cta-button" onClick={handleGetStarted}>
@@ -77,29 +95,37 @@ export default function Home() {
           <div className="how-card">
             <h3 className="how-title">Intake without friction</h3>
             <p className="how-text">
-              No portals. No forms. Instead of manually typing summaries or copying details into spreadsheets, your team can drag and drop or paste any content — and Atticus instantly structures it into a clean, searchable case record.
-It filters out filler language, detects duplicates, and links the message to the correct client or matter number.
+              No portals. No forms. Instead of manually typing summaries or
+              copying details into spreadsheets, your team can drag and drop or
+              paste any content — and Atticus instantly structures it into a
+              clean, searchable case record. It filters out filler language,
+              detects duplicates, and links the message to the correct client or
+              matter number.
             </p>
           </div>
 
           <div className="how-card">
             <h3 className="how-title">Structured next steps</h3>
             <p className="how-text">
-              Atticus doesn’t just summarize; it plans the follow-through.
-Using legal language understanding, it detects deadlines, missing discovery items, offer adjustments, and follow-up tasks. It classifies each finding as time-sensitive, pending documentation, or awaiting client response, and assigns it to the right internal role.
+              Atticus doesn’t just summarize; it plans the follow-through. Using
+              legal language understanding, it detects deadlines, missing
+              discovery items, offer adjustments, and follow-up tasks. It
+              classifies each finding as time-sensitive, pending documentation,
+              or awaiting client response, and assigns it to the right internal
+              role.
             </p>
           </div>
 
           <div className="how-card">
             <h3 className="how-title">Team handoff ready</h3>
             <p className="how-text">
-             Atticus translates messy updates into role-specific summaries so every team member receives only what they need.
-
-Schedulers automatically see hearing dates, medical appointments, and deposition slots in calendar-ready format.
-
-Demand writers get concise summaries of treatments, damages, and policy limits ready for demand package drafting.
-
-Case managers view document requests, client messages, and outstanding follow-ups in checklist form.
+              Atticus translates messy updates into role-specific summaries so
+              every team member receives only what they need. Schedulers
+              automatically see hearing dates, medical appointments, and
+              deposition slots in calendar-ready format. Demand writers get
+              concise summaries of treatments, damages, and policy limits ready
+              for demand package drafting. Case managers view document requests,
+              client messages, and outstanding follow-ups in checklist form.
             </p>
           </div>
         </div>
