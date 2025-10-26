@@ -58,7 +58,7 @@ const [openCommModal, setOpenCommModal] = useState(false);
  useEffect(() => {
   const fetchAppointments = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/appointments");
+      const res = await fetch("/api/appointments");
       const data = await res.json();
       setAppointments(data);
     } catch (err) {
@@ -78,7 +78,7 @@ const [openCommModal, setOpenCommModal] = useState(false);
 useEffect(() => {
   const fetchTasks = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/tasks");
+      const res = await fetch("/api/tasks");
       const data: Task[] = await res.json();
 
       const legalResearchOnly = data.filter(

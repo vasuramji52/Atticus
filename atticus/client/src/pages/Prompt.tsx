@@ -17,7 +17,7 @@ function Prompt() {
   
   const handleProcessAI = async () => {
   try {
-    const res = await fetch("http://localhost:5000/api/classify", {
+    const res = await fetch("/api/classify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
