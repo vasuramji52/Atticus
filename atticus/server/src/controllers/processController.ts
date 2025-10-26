@@ -19,7 +19,9 @@ export async function createProposalController(req: Request, res: Response) {
       task_type: task.task_type,
       summary: task.summary,
       specialist_assigned: task.specialist_assigned,
-      raw_input: task.raw_input
+      confidence: task.confidence,
+      status: task.status,
+      raw_input: task.raw_input,
     });
 
     const proposal: ProposalCreate = {
