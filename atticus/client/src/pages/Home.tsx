@@ -2,18 +2,23 @@ import { useAuth } from "react-oidc-context";
 import { useEffect } from "react";
 import "./Home.css";
 import logo from "../assets/logo.svg"; // logo image (same one used in Dashboard)
+import { useNavigate } from "react-router-dom";
+
 
 export default function Home() {
   const auth = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (auth.isAuthenticated && auth.user?.access_token) {
-      const token = auth.user.access_token;
-      localStorage.setItem("accessToken", token);
-      console.log("auth.user.access_token:", token);
+    if (auth.isAuthenticated && auth.user?.id_token)
+  {
+      // const token = auth.user.access_token;
+      const token = auth.user.id_token;
+      localStorage.setItem("idToken", token);
+      console.log("auth.user.id_token:", token);
 
       // ✅ auto fetch from backend here
-    }
+     }
   }, [auth.isAuthenticated, auth.user]);
 
   const handleAuthClick = async () => {
@@ -35,7 +40,9 @@ export default function Home() {
   // Main "Get Started" button logic
   const handleGetStarted = () => {
     if (auth.isAuthenticated) {
+      navigate("/prompt");
       console.log("✅ already signed in (show dashboard later)");
+      console.log(localStorage.getItem("idToken"));
     } else {
       auth.signinRedirect();
     }
@@ -79,7 +86,7 @@ export default function Home() {
         </p>
 
         <button className="cta-button" onClick={handleGetStarted}>
-          {auth.isAuthenticated ? "Continue" : "Get started"}
+         {auth.isAuthenticated ? "Continue" : "Get started"}
         </button>
 
         {auth.isAuthenticated && (
