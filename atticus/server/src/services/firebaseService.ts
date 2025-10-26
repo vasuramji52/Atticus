@@ -92,6 +92,22 @@ export async function updateApprovalStatus(id: string, status: string) {
  }
 }
 
+export async function checkAppointmentAvailability(date: string, time: string): Promise<boolean> {
+  try {
+    // We'll assume your Appointment schema has `date` and `time` fields stored as strings
+    // Alternatively, you could use a combined ISO datetime field — just adjust this query accordingly.
+    const snapshot = await db.collection("appointments")
+      .where("date", "==", date)
+      .where("time", "==", time)
+      .get();
+
+    return snapshot.empty; // true means no existing appointment at that slot
+  } catch (error) {
+    console.error("❌ Error checking appointment availability:", error);
+    // If something fails, play it safe and return false
+    return false;
+  }
+}
 // Get all tasks
 export async function getAllTasks() {
   const snapshot = await db.collection("tasks").orderBy("created_at", "desc").get();
