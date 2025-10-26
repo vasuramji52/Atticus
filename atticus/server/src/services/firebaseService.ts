@@ -4,6 +4,7 @@ import { Task, TaskCreate } from "../schemas/taskSchema";
 import { Proposal, ProposalCreate } from "../schemas/proposalSchema";
 import { Approval } from "../schemas/approvalSchema";
 
+import { Appointment } from "../schemas/appointmentSchema";
 
 export async function createTask(task: TaskCreate): Promise<Task> {
   const ref = await db.collection("tasks").add(task);
@@ -91,8 +92,29 @@ export async function updateApprovalStatus(id: string, status: string) {
  }
 }
 
+export async function checkAppointmentAvailability(date: string, time: string): Promise<boolean> {
+  try {
+    // We'll assume your Appointment schema has `date` and `time` fields stored as strings
+    // Alternatively, you could use a combined ISO datetime field — just adjust this query accordingly.
+    const snapshot = await db.collection("appointments")
+      .where("date", "==", date)
+      .where("time", "==", time)
+      .get();
+
+    return snapshot.empty; // true means no existing appointment at that slot
+  } catch (error) {
+    console.error("❌ Error checking appointment availability:", error);
+    // If something fails, play it safe and return false
+    return false;
+  }
+}
 // Get all tasks
 export async function getAllTasks() {
   const snapshot = await db.collection("tasks").orderBy("created_at", "desc").get();
   return snapshot.docs.map((doc) => ({ task_id: doc.id, ...doc.data() }));
+}
+export async function createAppointment(appointment: Appointment) {
+  const appointmentRef = await db.collection("appointments").add(appointment);
+  await appointmentRef.update({ appointment_id: appointmentRef.id });
+  return { ...appointment, appointment_id: appointmentRef.id };
 }

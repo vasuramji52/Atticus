@@ -2,10 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { AuthProvider } from "react-oidc-context";
 import './index.css'
-import Home from "./pages/Home.tsx";
-import Prompt from './pages/Prompt.tsx'
-import Dashboard from './pages/Dashboard.tsx'
-import App from './App.tsx'
+import App from './App'
 
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.us-east-2.amazonaws.com/us-east-2_96wClzCbY",
@@ -19,7 +16,7 @@ const cognitoAuthConfig = {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider {...cognitoAuthConfig}>
-       <Home />
+       <App />
     </AuthProvider>
   </StrictMode>,
 )

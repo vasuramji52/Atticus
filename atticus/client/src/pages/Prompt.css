@@ -60,6 +60,7 @@ body {
     color: #614a2f;
     font-weight: bold;
     font-size: smaller;
+    font-family: 'Courier New', Courier, monospace;
   }
 
   .input-box {
@@ -69,6 +70,7 @@ body {
     padding: 1rem 2rem;
     background-color:#faf6ed;
     border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
 
     h2 {
       
@@ -120,6 +122,14 @@ body {
     padding: 1rem 2rem;
     margin: 2rem;
     border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
+    .example-text {
+      margin-top:1rem;
+      border: 2px solid #d9ccb4;
+      padding:1rem;
+      margin-bottom:1rem;
+      background-color:#e8dcc4;
+    }
     h2 {
       
       font-size: large;
@@ -128,7 +138,7 @@ body {
     }
     .button-group {
       display: flex;
-      background: #f5f0e7;
+      background: #e8dcc4;
       border-radius: 6px;
       overflow: hidden;
     }
@@ -151,6 +161,28 @@ body {
       border-radius: 4px;
       background: #d7cbb8; /* highlighted color */
     }
+    pre {
+        white-space: pre-wrap;      /* ✅ wraps long lines but keeps line breaks */
+        word-wrap: break-word;      /* ✅ allows breaking long words if needed */
+        overflow-wrap: break-word;  /* ✅ modern alternative for word-wrap */
+        font-size: large;
+        flex-direction: row;
+    }
+    .load-example {
+        padding: 0.4rem 1.4rem;
+        align-items: center;
+        justify-content: center;
+        background-color: #9b8f82;
+        border: none;
+        font-family:'Courier New', Courier, monospace;
+        color: #faf6ed;
+        height: 50px;
+        font-weight: bold;
+        font-size: medium;
+      }
+      .load-example:hover{
+        background-color:#3d3225;
+      }
   }
 }
 

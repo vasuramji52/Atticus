@@ -261,3 +261,77 @@ Output must begin with "{" and end with "}".
     };
   }
 }
+
+export async function generateVoiceReply(transcript: string, classification: any) {
+  const genAI = new GoogleGenAI({ apiKey, apiVersion: "v1" });
+
+  try {
+    const prompt = `
+You are an AI legal assistant speaking with a user over the phone.
+
+Your goals are:
+1. Generate a short, natural, conversational spoken reply to the user.
+2. If the user mentioned a scheduling date/time, also extract it in structured form.
+3. If the user asks for availability on a certain date/time, await the availability response and give a cordial yes (for example, "yes *insert time and day* is available, see you then) or if that slot is not available, kindly prompt them to give another available time
+
+Return ONLY valid JSON matching this exact shape:
+
+{
+  "voice_reply": string,       // short natural sentence for TTS (e.g. "Sure, what date works best?")
+  "parsed_slot": {
+  "date": "YYYY-MM-DD" or null,
+  "time": "HH:mm" or null
+}
+
+If the user says something relative like "next Thursday at 2pm",
+you MUST convert it to an explicit calendar date in YYYY-MM-DD
+and 24-hour time in HH:mm, using the current date as reference.
+If you're unsure, leave it null.
+}
+
+Classification context (for reference):
+${JSON.stringify(classification, null, 2)}
+
+User said:
+"${transcript}"
+
+Examples:
+User: "I want to schedule a deposition next Friday at 3"
+Response:
+{
+  "voice_reply": "Okay, I can help with that.",
+  "parsed_slot": { "date": "2025-11-07", "time": "15:00" }
+}
+
+User: "I need MRI records"
+Response:
+{
+  "voice_reply": "Alright, which provider are the records from?",
+  "parsed_slot": { "date": null, "time": null }
+}
+
+Keep "voice_reply" under 20 words.
+`;
+
+    const result = await genAI.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+    });
+
+    const text = result.text ?? "";
+    console.log("💬 Raw Gemini voice+slot output:", text);
+
+    const match = text.match(/\{[\s\S]*\}/);
+    const parsed = match ? JSON.parse(match[0]) : {};
+
+    const voice_reply = parsed.voice_reply || "Okay, I’ve noted that down.";
+    const date = parsed.parsed_slot?.date || null;
+    const time = parsed.parsed_slot?.time || null;
+
+    return { voice_reply, date, time };
+  } catch (err) {
+    console.error("❌ Gemini voice reply generation failed:", err);
+    return { voice_reply: "Sorry, I didn’t quite catch that. Could you repeat?", date: null, time: null };
+  }
+}
+
