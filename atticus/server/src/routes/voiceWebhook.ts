@@ -11,18 +11,29 @@ import { getSession, setSession, clearSession } from "../services/sessionStore";
 const router = Router();
 const BASE_URL = process.env.BASE_URL;
 
-router.all("/start", (req, res) => {
+router.all("/start", async(req, res) => {
   if (!BASE_URL) {
     console.error("❌ BASE_URL is missing. Check your .env file.");
     return res.status(500).send("Missing BASE_URL");
   }
 
+  const greetingText = "Hi there, this is your AI legal assistant. How can I help you today.";
+
+  // 🗣️ Convert greeting to ElevenLabs audio
+  const greetingAudio = await generateVoiceBuffer(greetingText);
+  const greetingFile = `tts-greeting-${Date.now()}.mp3`;
+  const greetingPath = path.join(__dirname, "../../public", greetingFile);
+
+  await fsPromises.writeFile(greetingPath, greetingAudio);
+  const greetingUrl = `${BASE_URL}/${greetingFile}`;
+
+  // 📨 Send TwiML back to Twilio
   const twiml = `
-<Response>
-  <Gather input="speech" action="${BASE_URL}/api/voice/handle-speech" method="POST" timeout="5">
-    <Say>Hello! This is your AI legal assistant. How can I help you today?</Say>
-  </Gather>
-</Response>`;
+  <Response>
+    <Gather input="speech" action="${BASE_URL}/api/voice/handle-speech" method="POST" timeout="5">
+      <Play>${greetingUrl}</Play>
+    </Gather>
+  </Response>`;
 
   res.header("Content-Type", "text/xml");
   res.status(200).send(twiml.trim());
@@ -40,6 +51,30 @@ router.post("/incoming", (req, res) => {
       </Gather>
     </Response>
   `);
+});
+
+router.all("/outbound-records-twiml", (req, res) => {
+  const fileUrl =
+    (req.query.fileUrl as string) ||
+    (req.body && (req.body.fileUrl as string)) ||
+    "";
+
+  if (!fileUrl) {
+    console.error("❌ Missing fileUrl in outbound-records-twiml");
+    res.header("Content-Type", "text/xml");
+    return res
+      .status(400)
+      .send(`<Response><Say>Missing file URL.</Say></Response>`);
+  }
+
+  console.log("🎧 Twilio will play:", fileUrl);
+
+  res.header("Content-Type", "text/xml");
+  res.status(200).send(
+    `<Response>
+       <Play>${fileUrl}</Play>
+     </Response>`.trim()
+  );
 });
 
 router.post("/handle-speech", async (req, res) => {

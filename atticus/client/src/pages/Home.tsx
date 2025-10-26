@@ -1,10 +1,12 @@
 import { useAuth } from "react-oidc-context";
 import { useEffect } from "react";
 import "./Home.css";
-import logo from "../assets/logo.svg"; // logo image (same one used in Dashboard)
+import logo from "../assets/logo.svg";
+import { useNavigate } from "react-router-dom"; // logo image (same one used in Dashboard)
 
 export default function Home() {
   const auth = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (auth.isAuthenticated && auth.user?.access_token) {
@@ -35,7 +37,7 @@ export default function Home() {
   // Main "Get Started" button logic
   const handleGetStarted = () => {
     if (auth.isAuthenticated) {
-      console.log("✅ already signed in (show dashboard later)");
+      navigate("/prompt");  // 👈 redirect to prompt
     } else {
       auth.signinRedirect();
     }

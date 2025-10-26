@@ -13,6 +13,34 @@ body {
   align-items: center;     /* horizontally centers text */
 }
 
+.left-header {
+  justify-content: center;
+  justify-items: center;
+  flex-direction: column;
+}
+
+.right-header {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-btn {
+  background-color: #9b8f82;
+  border: 2px solid #333;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.nav-btn:hover {
+  background-color: #614a2f;
+  color: white;
+}
+
 .horizontal-bar h1 {
   font-size: 6.0rem;
   font-family: "Corinthia", cursive;
@@ -39,6 +67,7 @@ body {
   margin-top: 1rem;
   padding: 0rem;
   letter-spacing: 1px;
+  justify-content: center;
 }
 
 .main-body{
