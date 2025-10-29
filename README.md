@@ -1,1 +1,2 @@
 # Atticus
+# Atticus helps plaintiff teams turn chaos into clarity. We take raw inputs like texts, voicemails, scanned PDFs, and email threads and automatically indentify key legal elements such as incident dates, parties, insurance providers, and injuries. Instead of manually typing summaries or copying details into spreadsheets, your team can drag and drop or paste any content — and Atticus instantly structures it into a clean, searchable case record. It filters out filler language, detects duplicates, and links the message to the correct client or matter number.
