@@ -1,5 +1,8 @@
 import axios from "axios";
 import twilio from "twilio";
+import path from "path";
+import fs from "fs";
+import { promises as fsPromises } from "fs";
 
 // -----------------------------
 // Load environment variables
@@ -55,17 +58,30 @@ export async function generateVoiceBuffer(script: string): Promise<Uint8Array> {
 // -----------------------------
 // 2. Trigger Twilio Call
 // -----------------------------
-export async function makeVoiceCall(toNumber: string): Promise<string> {
+export async function makeVoiceCall(toNumber: string, script?: string): Promise<string> {
   const BASE_URL = process.env.BASE_URL;
+  const message = script ?? "Hello, this is the Records Wrangler calling.";
+
+  // 🗣️ Convert message to audio file
+  const audioBuffer = await generateVoiceBuffer(message);
+  const fileName = `tts-${Date.now()}.mp3`;
+  const filePath = path.join(__dirname, "../../public", fileName);
+
+  if (!fs.existsSync(path.dirname(filePath))) fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  await fsPromises.writeFile(filePath, audioBuffer);
+
+  const fileUrl = `${BASE_URL}/${fileName}`;
+
   const call = await client.calls.create({
     to: toNumber,
     from: TWILIO_PHONE,
-    url: `${BASE_URL}/api/voice/start` // 👈 Twilio will fetch TwiML here
+    url: `${BASE_URL}/api/voice/outbound-records-twiml?fileUrl=${encodeURIComponent(fileUrl)}`
   });
 
-  console.log(`📞 Twilio Call initiated: ${call.sid}`);
+  console.log(`📞 Twilio call started: ${call.sid}`);
   return call.sid;
 }
+
 
 // -----------------------------
 // 3. Optional: Generate Gemini Script (Mock)

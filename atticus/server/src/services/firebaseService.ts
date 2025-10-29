@@ -13,6 +13,35 @@ export async function createTask(task: TaskCreate): Promise<Task> {
   return { task_id: ref.id, ...(snap.data() as Task) };
 }
 
+export async function updateTask(task_id: string, updates: Partial<Task>): Promise<Task | null> {
+  try {
+    if (!task_id) {
+      throw new Error("Missing task_id for update");
+    }
+
+    const taskRef = db.collection("tasks").doc(task_id);
+    const snapshot = await taskRef.get();
+
+    if (!snapshot.exists) {
+      console.warn(`⚠️ Task with ID ${task_id} not found`);
+      return null;
+    }
+
+    const dataToUpdate = {
+      ...updates,
+      updated_at: new Date().toISOString(),
+    };
+
+    await taskRef.update(dataToUpdate);
+
+    const updatedSnap = await taskRef.get();
+    return { task_id: updatedSnap.id, ...(updatedSnap.data() as Task) };
+  } catch (error) {
+    console.error("❌ updateTask error:", error);
+    throw error;
+  }
+}
+
 // You said you don't have this—add a tiny helper:
 export async function getTaskById(task_id: string): Promise<Task | null> {
   const doc = await db.collection("tasks").doc(task_id).get();

@@ -8,6 +8,22 @@ function Prompt() {
   const [count, setCount] = useState(0)
   const[activeTab, SetActiveTab] = useState('EMAIL');
   const [inputValue, setInputValue] = useState("");
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/dashboard');
+  }
+  
+  const handleProcessAI = async () => {
+  try {
+    const res = await fetch("/api/classify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        raw_input: inputValue,
+        created_by: "frontend-user"
+      }),
+    });
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -38,13 +54,25 @@ function Prompt() {
     setCount(e.target.value.length);
   };
 
-  const handleTabClick = (tab: string) => {
-    SetActiveTab(tab);
+    const data = await res.json();
+    console.log("🤖 Classified Task:", data);
+
+    alert(`✅ Task Type: ${data.task_type}\n📋 Summary: ${data.summary}\n👤 Specialist: ${data.specialist_assigned}`);
+
+    // 👇 navigate after successful classification
+    navigate('/dashboard');
+  } catch (err) {
+    console.error("❌ Error calling AI API:", err);
+    alert("Failed to process input with AI.");
   }
+};
+
+
 
   const handleLoadExample = () => {
     const exampleText = EXAMPLES[activeTab] ?? "";
     setInputValue(exampleText);
+    console.log(exampleText)
     setCount(exampleText.length);
   };
 
@@ -105,19 +133,21 @@ function Prompt() {
     <>
       <div className='horizontal-bar'>
           <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&display=swap" rel="stylesheet"></link>
-          <h1 className='atticus-title'>Atticus
-              <img src={logo} className='logo'></img>
-          </h1>
-          <h2>Your personalized legal assistant</h2>
-          <h3>Est. 2025</h3>
+          <div className="left-header">
+    <h1 className='atticus-title'>
+      Atticus <img src={logo} className='logo' alt="logo" />
+    </h1>
+    <h2>Your personalized legal assistant</h2>
+    <h3>Est. 2025</h3>
+  </div>
+
+  <div className="right-header">
+    <Link to="/prompt" className="nav-btn">Prompt</Link>
+    <Link to="/dashboard" className="nav-btn">Dashboard</Link>
+  </div>
+          
       </div>
       <div className='main-body'>
-        <div className="grid-container">
-          <div className="grid-item">BOX 1
-          </div>
-          <div className="grid-item">BOX 2</div>
-          <div className="grid-item">BOX 3</div>
-        </div>
         <div className='input-box'>
           <h2>
             UNSTRUCTURED DATA INPUT
@@ -136,6 +166,7 @@ function Prompt() {
           />
           <div className='input-footer'>
             <p><span>{count}</span> CHARACTERS</p>
+            <button className='processAI' onClick={handleProcessAI}><PiSparkleFill size={20}></PiSparkleFill>  PROCESS WITH AI</button>
             <button className='processAI' onClick={handleProcessWithAI} disabled = {loading}><PiSparkleFill size={20}></PiSparkleFill>  PROCESS WITH AI</button>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { AuthProvider } from "react-oidc-context";
+import { BrowserRouter } from 'react-router-dom';
 import './index.css'
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 //import App from './App'
