@@ -9,6 +9,7 @@ import path from "path";
 import proposals from "./routes/process";
 import approvalRoute from "./routes/approve";
 import taskRoute from "./routes/tasks";
+import { authRequired } from "./middle/authRequired";
 
 const app = express();
 
@@ -27,6 +28,14 @@ app.use("/api/voice", voiceWebhookRoutes);
 app.use("/api/appointments", appointmentRoutes); 
 app.use(express.static(path.join(__dirname, "../public")));
 console.log("✅ Agent route mounted");
+
+app.get("/", (_req, res) => {
+  res.send("Backend running 🚀");
+});
+
+app.get("/api/whoami", authRequired, (req, res) => {
+  res.json({ ok: true, user: req.user });
+});
 
 app.use((req, res) => {
   console.log(`🚨 No route matched: ${req.method} ${req.url}`);

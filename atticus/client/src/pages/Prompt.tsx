@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PiSparkleFill } from "react-icons/pi";
 import './Prompt.css'
 import logo from '../assets/logo.svg'
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 function Prompt() {
   const [count, setCount] = useState(0)
@@ -25,6 +24,35 @@ function Prompt() {
         created_by: "frontend-user"
       }),
     });
+  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setToken(localStorage.getItem("idToken"));
+  }, []);
+
+  // redirect if no token (after we've checked)
+  useEffect(() => {
+    if (token === null) return;           // still loading localStorage
+    if (!token) {
+      console.warn("No token found in localStorage");
+      navigate("/");                      // go back to Home (lowercase)
+    }
+  }, [token, navigate]);
+
+  // optional loading state while checking token
+  if (token === null) {
+    return <div style={{ padding: 24 }}>Loading…</div>;
+  }
+  
+  const updateCharCount = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputValue(e.target.value);
+    setCount(e.target.value.length);
+  };
 
     const data = await res.json();
     console.log("🤖 Classified Task:", data);
@@ -46,6 +74,42 @@ function Prompt() {
     setInputValue(exampleText);
     console.log(exampleText)
     setCount(exampleText.length);
+  };
+
+  //NEW
+  const handleProcessWithAI = async () => {
+    setLoading(true);
+    setError(null);
+    setResponse(null);
+
+    try{
+      if(!token){
+        setError("No token found. Please sign in again.");
+        setLoading(false);
+        return;
+      }
+      console.log("Using token:", token);
+      const res = await fetch("http://localhost:5000/api/classify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ raw_input: inputValue })
+      });
+
+      const data = await res.json();
+      if(!res.ok){
+        throw new Error(data.error || "Failed to classify input");
+      }
+
+      console.log("Response data:", data);
+      setResponse(data);
+    } catch (error: any) {
+      setError(error.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const EXAMPLES: Record<string, string> = {
@@ -103,6 +167,7 @@ function Prompt() {
           <div className='input-footer'>
             <p><span>{count}</span> CHARACTERS</p>
             <button className='processAI' onClick={handleProcessAI}><PiSparkleFill size={20}></PiSparkleFill>  PROCESS WITH AI</button>
+            <button className='processAI' onClick={handleProcessWithAI} disabled = {loading}><PiSparkleFill size={20}></PiSparkleFill>  PROCESS WITH AI</button>
           </div>
         </div>
         <div className='example-box'>
